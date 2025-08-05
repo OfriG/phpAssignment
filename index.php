@@ -255,11 +255,126 @@ if ($unitPrice1 < $unitPrice2) {
 echo '<br>';
 
 ?>
-<!-- 12. Write a program to set a session on successful login. -->
-13. Write a program to read from the directory.
-14. Write a PHP program to create an image from text and save.
-15. Write a PHP program to get data from XML files in PHP.
-16. Write a PHP program to create word documents from HTML.
-17. How do you check if a year is a leap or not?
-18. Write a PHP program to print fibonacci series.
+<!-- 12. Writea program to set a session on successful login. -->
+ <?php
+    session_start();
+    //instead of get this info from db
+    $validUserName= 'ofri';
+    $validPassword= 'theBest';
+    if($_SERVER["REQUEST_METHOD"]=="POST"){
+        $userName= $_POST['userName'];
+        $password= $_POST['password'];
+        //check if the details correct
+        if($userName ===$validUserName && password ===validPassword){
+            $_SESSION['userName']= $userName;
+            echo 'Login succsessfuly';
+        }
+        else{
+            echo 'invalid password';
+        }
+    }
+?>
 
+    <form method="post"
+    action="">
+    userName:<input type="text"
+    name="userName" required><br>
+    Password: <input type="password"
+    <input type="submit"
+    value="Login">
+    </form>
+ 
+
+<!-- 13. Write a program to read from the directory. -->
+<?php 
+    $directory= ".";
+    if(is_dir($directory)){
+        if($dh= opendir($directory)){
+            echo "<h1> files and folders in '$directory':</h1>";
+            while(($file = readdir($dh)) !== false){
+                echo "Name: " . $file . "<br>";
+            }
+            closedir($dh);
+        }
+        else{
+            echo "failed to open directory";
+        }
+    }
+    else{
+        echo "'$directory' is not a valid directory.";
+    }
+?>
+<!-- 14. Write a PHP program to create an image from text and save. -->
+ <?php
+
+  $text= "ofri's photo";
+  $width= 200;
+  $height= 200;
+  $image= imagecreate($width, $height);
+  $white= imagecolorallocate($image, 255,255,255);
+  $black= imagecolorallocate($image, 0,0,0);
+  //write the text on the photo
+imagestring($image,5,50,40,$text, $black);
+//save the photo as png
+imagepng($image, "output.png");
+imagedestroy($image);
+ ?>
+<!-- 15. Write a PHP program to get data from XML files in PHP. -->
+<?php
+// Load XML file
+$xml = simplexml_load_file("people.xml") or die("Error: Cannot load XML file");
+
+// Loop through each element
+foreach ($xml->person as $person) {
+    echo "Name: " . $person->name . "<br>";
+    echo "Age: " . $person->age . "<br>";
+    echo "Gender: " . $person->gender . "<br><br>";
+}
+?>
+
+<!-- 16. Write a PHP program to create word documents from HTML. -->
+
+<?php
+// Define HTML content
+$htmlContent = "
+<h1>Welcome to PHP</h1>
+<p>This document is generated from HTML using PHP.</p>
+";
+
+// Set headers to force download as a Word file
+header("Content-Type: application/vnd.ms-word");
+header("Content-Disposition: attachment; filename=document.doc");
+
+// Output the HTML as Word content
+echo $htmlContent;
+?>
+
+<!-- 17. How do you check if a year is a leap or not? -->
+<?php
+$year = 2024;
+
+// Check if leap year
+if (($year % 4 == 0 && $year % 100 != 0) || ($year % 400 == 0)) {
+    echo "$year is a leap year.";
+} else {
+    echo "$year is not a leap year.";
+}
+?>
+
+<!-- 18. Write a PHP program to print fibonacci series. -->
+<?php
+    $n= 10;//how much numbers to show
+    $fib1= 0;
+    $fib2= 1;
+    echo "$fib1, $fib2";
+    for($i=3;$i<= $n; $i++){
+        $next= $fib1+$fib2;
+        echo " , $next";
+        
+        //update the previews two numbers
+        $fib1= $fib2;
+        $fib2=$next;
+    }
+
+
+?>
